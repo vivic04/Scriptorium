@@ -1,0 +1,3012 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Scriptorium</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>
+            hljs.configure({
+                tabReplace: '    ',
+            });
+            hljs.initHighlightingOnLoad();
+        </script>
+        <style>
+            body {
+                position: relative;
+            }
+
+            h1 {
+                margin-top: 5px;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                color: #2b2b2b;
+            }
+
+            h2:after {
+                content: ' ';
+            }
+
+            h5 {
+                font-weight: bold;
+            }
+
+            h1 a,
+            h2 a,
+            h3 a,
+            h4 a,
+            h5 a,
+            h6 a {
+                display: none;
+                position: absolute;
+                margin-left: 8px;
+            }
+
+            h1:hover a,
+            h2:hover a,
+            h3:hover a,
+            h4:hover a,
+            h5:hover a,
+            h6:hover a {
+                color: #a5a5a5;
+                display: initial;
+            }
+
+            .nav.nav-tabs > li > a {
+                padding-top: 4px;
+                padding-bottom: 4px;
+            }
+
+            .tab-content {
+                padding-top: 8px;
+            }
+
+            .table {
+                margin-bottom: 8px;
+            }
+
+            pre {
+                border-radius: 0px;
+                border: none;
+            }
+
+            pre code {
+                margin: -9.5px;
+            }
+
+            .request {
+                margin-top: 12px;
+                margin-bottom: 24px;
+            }
+
+            .response-text-sample {
+                padding: 0px !important;
+            }
+
+            .response-text-sample pre {
+                margin-bottom: 0px;
+            }
+
+            #sidebar-wrapper {
+                z-index: 1000;
+                position: fixed;
+                left: 250px;
+                width: 250px;
+                height: 100%;
+                margin-left: -250px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                background: #2b2b2b;
+                padding-top: 20px;
+            }
+
+            #sidebar-wrapper ul {
+                width: 250px;
+            }
+
+            #sidebar-wrapper ul li {
+                margin-right: 10px;
+            }
+
+            #sidebar-wrapper ul li a:hover {
+                background: inherit;
+                text-decoration: none;
+            }
+
+            #sidebar-wrapper ul li a {
+                display: block;
+                color: #ecf0f1;
+                padding: 6px 15px;
+            }
+
+            #sidebar-wrapper ul li ul {
+                padding-left: 25px;
+            }
+
+            #sidebar-wrapper ul li ul li a {
+                padding: 1px 0px;
+            }
+
+            #sidebar-wrapper ul li a:hover,
+            #sidebar-wrapper ul li a:focus {
+                color: #e0c46c;
+                border-right: solid 1px #e0c46c;
+            }
+
+            #sidebar-wrapper ul li.active > a {
+                color: #e0c46c;
+                border-right: solid 3px #e0c46c;
+            }
+
+            #sidebar-wrapper ul li:not(.active) ul {
+                display: none;
+            }
+
+            #page-content-wrapper {
+                width: 100%;
+                position: absolute;
+                padding: 15px 15px 15px 250px;
+            }
+        </style>
+    </head>
+    <body data-spy="scroll" data-target=".scrollspy">
+        <div id="sidebar-wrapper">
+            <div class="scrollspy">
+                <ul id="main-menu" data-spy="affix" class="nav">
+                    <li>
+                        <a href="#doc-general-notes">General notes</a>
+                    </li>
+
+                    <li>
+                        <a href="#doc-api-detail">API detail</a>
+                    </li>
+
+                    <li>
+                        <a href="#request-health-check">Health Check</a>
+                    </li>
+
+                    <li>
+                        <a href="#folder-users">Users</a>
+                        <ul>
+                            <li>
+                                <a href="#request-users-create-user">Create User</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-users-retrieve-user-by-id">Retrieve User by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-users-update-user-by-id">Update User by ID</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-sessions">Sessions</a>
+                        <ul>
+                            <li>
+                                <a href="#request-sessions-create-session">Create Session</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-sessions-refresh-session">Refresh Session</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-sessions-delete-session">Delete Session</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-templates">Templates</a>
+                        <ul>
+                            <li>
+                                <a href="#request-templates-create-template">Create Template</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-templates-search-templates">Search Templates</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-templates-retrieve-template-by-id">Retrieve Template by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-templates-update-template-by-id">Update Template by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-templates-delete-template-by-id">Delete Template by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-templates-fork-template-by-id">Fork Template by ID</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-posts">Posts</a>
+                        <ul>
+                            <li>
+                                <a href="#request-posts-create-blog-post">Create Blog Post</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-posts-search-blog-posts">Search Blog Posts</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-posts-retrieve-blog-post-by-id">Retrieve Blog Post by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-posts-update-blog-post-by-id">Update Blog Post by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-posts-delete-blog-post-by-id">Delete Blog Post by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-posts-hide-post-by-id">Hide Post by ID</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-ratings">Ratings</a>
+                        <ul>
+                            <li>
+                                <a href="#request-ratings-upvote-or-downvote-post-by-id"
+                                    >Upvote or Downvote Post by ID</a
+                                >
+                            </li>
+
+                            <li>
+                                <a href="#request-ratings-upvote-or-downvote-comment-by-id"
+                                    >Upvote or Downvote Comment by ID</a
+                                >
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-reports">Reports</a>
+                        <ul>
+                            <li>
+                                <a href="#request-reports-retrieve-sort-reports">Retrieve & Sort Reports</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-reports-create-report">Create Report</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-comments">Comments</a>
+                        <ul>
+                            <li>
+                                <a href="#request-comments-hide-comment-by-id">Hide Comment by ID</a>
+                            </li>
+
+                            <li>
+                                <a href="#request-comments-retrieve-comment-by-id">Retrieve Comment by ID</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#folder-runners">Runners</a>
+                        <ul>
+                            <li>
+                                <a href="#request-runners-create-runner">Create Runner</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Scriptorium</h1>
+
+                        <h2 id="doc-general-notes">
+                            General notes
+                            <a href="#doc-general-notes"><i class="glyphicon glyphicon-link"></i></a>
+                        </h2>
+
+                        <p>
+                            In CSC309, we&rsquo;re building &ldquo;Scriptorium,&rdquo; an innovative web app where users
+                            can write, execute, and manage code in multiple languages. Part 1 of the project focuses on
+                            creating the backend with Next.js, Prisma, and REST APIs to support features like code
+                            writing, syntax highlighting, and template saving. We&rsquo;ll be working in groups, and
+                            each team member is expected to contribute fairly. The deliverable is a fully functional
+                            backend that supports essential user stories and will be evaluated through interviews with
+                            TAs.
+                        </p>
+
+                        <p>
+                            Test Admin (for demonstration):<br />
+                            Email: <a href="https://mailto:admin@gmail.com">admin@gmail.com</a>
+                        </p>
+
+                        <p>Password: admin123@</p>
+
+                        <h2 id="doc-api-detail">
+                            API detail
+                            <a href="#doc-api-detail"><i class="glyphicon glyphicon-link"></i></a>
+                        </h2>
+
+                        <div class="request">
+                            <h3 id="request-health-check">
+                                Health Check
+                                <a href="#request-health-check"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <p>Checks if the API server is online and functioning. Expected Responses:</p>
+
+                                <p>200 OK</p>
+
+                                <pre><code class="language-json">{
+  &quot;status&quot;: &quot;Online&quot;,
+  &quot;message&quot;: &quot;API is running smoothly.&quot;
+}
+
+</code></pre>
+
+                                <p>500 Internal Server Error</p>
+
+                                <pre><code class="language-json">{
+  &quot;status&quot;: &quot;Offline&quot;,
+  &quot;message&quot;: &quot;API is experiencing issues.&quot;
+}
+
+</code></pre>
+                            </div>
+
+                            <div>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#request-health-check-example-curl" data-toggle="tab">Curl</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#request-health-check-example-http" data-toggle="tab">HTTP</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="request-health-check-example-curl">
+                                        <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/health"</code></pre>
+                                    </div>
+                                    <div class="tab-pane" id="request-health-check-example-http">
+                                        <pre><code class="hljs http">GET /api/health HTTP/1.1
+Host: localhost:3000</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-users">
+                                Users
+                                <a href="#folder-users"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <h2><strong>Database Models and Relationships</strong></h2>
+
+                                <h3><strong>1. User Model</strong></h3>
+
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>firstName: String - User&rsquo;s first name.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>lastName: String - User&rsquo;s last name.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>email: String - Unique email address.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>password: String - Hashed password.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>profilePicture: String? - Optional URL or file path.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>phoneNumber: String? - Optional contact number.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >isAdmin: Boolean - Indicates admin privileges, defaults to
+                                                false.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >templates: CodeTemplate[] - Code templates created by the user.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPosts: BlogPost[] - Blog posts authored by the user.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>comments: Comment[] - Comments made by the user.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reports: Report[] - Reports submitted by the user.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>votes: Vote[] - Votes cast by the user.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <strong
+                                            >One-to-Many with CodeTemplate, BlogPost, Comment, Report, and Vote.</strong
+                                        >
+                                        <br />
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >Central to user management, authentication, and authorization.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >Enables users to create content (templates, posts), interact (comments,
+                                                votes), and report inappropriate content.</strong
+                                            >
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-users-create-user">
+                                    Create User
+                                    <a href="#request-users-create-user"><i class="glyphicon glyphicon-link"></i></a>
+                                </h4>
+
+                                <div></div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-users-create-user-example-curl" data-toggle="tab">Curl</a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-users-create-user-example-http" data-toggle="tab">HTTP</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-users-create-user-example-curl">
+                                            <pre><code class="hljs curl">curl -X POST -H "Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW" -F "firstName=Latch" -F "lastName=Kapoor" -F "email=latch.kapoor@gmail.com" -F "password=password" -F "avatar=postman-cloud:///1ef9b089-5021-4500-9cdc-9c76f860c3d7" "http://localhost:3000/api/users"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-users-create-user-example-http">
+                                            <pre><code class="hljs http">POST /api/users HTTP/1.1
+Host: localhost:3000
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="firstName"
+
+Latch
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="lastName"
+
+Kapoor
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="email"
+
+latch.kapoor@gmail.com
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+password
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"
+
+postman-cloud:///1ef9b089-5021-4500-9cdc-9c76f860c3d7
+----WebKitFormBoundary7MA4YWxkTrZu0gW</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-users-retrieve-user-by-id">
+                                    Retrieve User by ID
+                                    <a href="#request-users-retrieve-user-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Retrieves details of a specific user by their ID. This is dependant on whatever
+                                        post is present with ID 7, it would return that. Below is an example of a
+                                        successful and an error request.
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 7,
+    &quot;firstName&quot;: &quot;Adam&quot;,
+    &quot;lastName&quot;: &quot;John&quot;,
+    &quot;email&quot;: &quot;adamjohn@gmail.com&quot;,
+    &quot;profilePicture&quot;: null,
+    &quot;phoneNumber&quot;: null,
+    &quot;isAdmin&quot;: false,
+    &quot;templates&quot;: [...],
+    &quot;blogPosts&quot;: [...],
+    &quot;comments&quot;: [...],
+    &quot;reports&quot;: [...],
+    &quot;votes&quot;: [...]
+  }
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;User not found&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-users-retrieve-user-by-id-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-users-retrieve-user-by-id-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-users-retrieve-user-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/users/3"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-users-retrieve-user-by-id-example-http">
+                                            <pre><code class="hljs http">GET /api/users/3 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-users-update-user-by-id">
+                                    Update User by ID
+                                    <a href="#request-users-update-user-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Updates details of a specific user by their ID. This depens on if the user exist
+                                        with ID 7. If so it will sucessfully update the User fields specified and will
+                                        not change the ones not specified. Here is an example of a successful request
+                                        and 2 error ones.
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 7,
+    &quot;firstName&quot;: &quot;James&quot;,
+    &quot;lastName&quot;: &quot;Don&quot;,
+    &quot;email&quot;: &quot;jamesdon@gmail.com&quot;,
+    &quot;profilePicture&quot;: &quot;http://example.com/pic.jpg&quot;,
+    &quot;phoneNumber&quot;: &quot;123-456-7890&quot;,
+    &quot;isAdmin&quot;: false,
+    &quot;templates&quot;: [...],
+    &quot;blogPosts&quot;: [...],
+    &quot;comments&quot;: [...],
+    &quot;reports&quot;: [...],
+    &quot;votes&quot;: [...]
+  }
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;User not found&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-users-update-user-by-id-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-users-update-user-by-id-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-users-update-user-by-id-example-curl">
+                                            <pre><code class="hljs curl">curl -X PUT -d '{
+  "firstName": "James",
+  "lastName": "Don",
+  "profilePicture": "http://example.com/pic.jpg",
+  "phoneNumber": "123-456-7890"
+}' "http://localhost:3000/api/users/3"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-users-update-user-by-id-example-http">
+                                            <pre><code class="hljs http">PUT /api/users/3 HTTP/1.1
+Host: localhost:3000
+
+{
+  "firstName": "James",
+  "lastName": "Don",
+  "profilePicture": "http://example.com/pic.jpg",
+  "phoneNumber": "123-456-7890"
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-sessions">
+                                Sessions
+                                <a href="#folder-sessions"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <p>
+                                    This folder is concerned with the creation and management of user sessions using JWT
+                                    access and refresh tokens.
+                                </p>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-sessions-create-session">
+                                    Create Session
+                                    <a href="#request-sessions-create-session"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Description: Authenticates a user and creates a new session (login). This can
+                                        result in either a sucessful creation or an error request. Examples below:
+                                    </p>
+
+                                    <p>201 Created</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;sessionId&quot;: &quot;unique-session-id&quot;,
+    &quot;userId&quot;: 7,
+    &quot;token&quot;: &quot;jwt-token-string&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-06T10:00:00.000Z&quot;
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid email or password.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-sessions-create-session-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-sessions-create-session-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-sessions-create-session-example-curl">
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+  "email": "admin1@scriptorium.com",
+  "password": "admin123@"
+}
+' "http://localhost:3000/api/sessions"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-sessions-create-session-example-http">
+                                            <pre><code class="hljs http">POST /api/sessions HTTP/1.1
+Host: localhost:3000
+
+{
+  "email": "admin1@scriptorium.com",
+  "password": "admin123@"
+}
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-sessions-refresh-session">
+                                    Refresh Session
+                                    <a href="#request-sessions-refresh-session"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Description: Refreshes an existing session token. This would refresh the User
+                                        Token (session), and generate a new token for the user to be able to login with.
+                                        Here are examples of each of the responses below:
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;sessionId&quot;: &quot;unique-session-id&quot;,
+    &quot;userId&quot;: 7,
+    &quot;token&quot;: &quot;new-jwt-token-string&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-06T11:00:00.000Z&quot;
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid refresh token.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-sessions-refresh-session-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-sessions-refresh-session-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-sessions-refresh-session-example-curl">
+                                            <pre><code class="hljs curl">curl -X PUT "http://localhost:3000/api/sessions"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-sessions-refresh-session-example-http">
+                                            <pre><code class="hljs http">PUT /api/sessions HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-sessions-delete-session">
+                                    Delete Session
+                                    <a href="#request-sessions-delete-session"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Deletes an existing session (logout). This call to delete a session will either
+                                        return with success or an error. Examples are below:
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;message&quot;: &quot;Session deleted successfully.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-sessions-delete-session-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-sessions-delete-session-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-sessions-delete-session-example-curl">
+                                            <pre><code class="hljs curl">curl -X DELETE "http://localhost:3000/api/sessions"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-sessions-delete-session-example-http">
+                                            <pre><code class="hljs http">DELETE /api/sessions HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-templates">
+                                Templates
+                                <a href="#folder-templates"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <h3><strong>2. CodeTemplate Model</strong></h3>
+
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>title: String - Title of the code template.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >explanation: String - Description of the template&rsquo;s
+                                                purpose.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>code: String - The code snippet.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >language: String - Programming language (e.g., JavaScript,
+                                                Python).</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>createdAt: DateTime - Creation timestamp, defaults to now.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>author: User - Author of the template.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>authorId: Int - Foreign key to User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >forkedFrom: CodeTemplate? - Reference to original template if
+                                                forked.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>forkedFromId: Int? - Foreign key to parent CodeTemplate.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >forks: CodeTemplate[] - Templates forked from this template.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>blogPosts: BlogPost[] - Blog posts linking this template.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>tags: Tag[] - Tags associated with the template.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Many-to-One with User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Self-Referential Many-to-One for forking.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Many-to-Many with BlogPost and Tag.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Facilitates code sharing and collaboration.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Supports versioning through forking.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Enhances blog posts with relevant code examples.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Organized via tags for easy discovery.</strong></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-create-template">
+                                    Create Template
+                                    <a href="#request-templates-create-template"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Creates a new code template. This call to create a tempelate can result in 3
+                                        different return codes.
+                                    </p>
+
+                                    <p>201 Created</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 10,
+    &quot;title&quot;: &quot;Neural Network for Image Classification&quot;,
+    &quot;explanation&quot;: &quot;A neural network implemented in Python for classifying images.&quot;,
+    &quot;code&quot;: &quot;import tensorflow as tf\n# Define and train neural network...&quot;,
+    &quot;language&quot;: &quot;Python&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-06T16:00:00.000Z&quot;,
+    &quot;authorId&quot;: 7,
+    &quot;forkedFromId&quot;: null,
+    &quot;forks&quot;: [],
+    &quot;blogPosts&quot;: [],
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 3, &quot;name&quot;: &quot;machine learning&quot; },
+      { &quot;id&quot;: 4, &quot;name&quot;: &quot;neural network&quot; },
+      { &quot;id&quot;: 5, &quot;name&quot;: &quot;python&quot; },
+      { &quot;id&quot;: 6, &quot;name&quot;: &quot;image classification&quot; }
+    ]
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-templates-create-template-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-templates-create-template-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-create-template-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+  "title": "Neural Network for Image Classification",
+  "explanation": "A neural network implemented in Python for classifying images.",
+  "code": "import tensorflow as tf\n# Define and train neural network...",
+  "language": "Python",
+  "tags": ["machine learning", "neural network", "python", "image classification"]
+}
+
+' "http://localhost:3000/api/templates"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-templates-create-template-example-http">
+                                            <pre><code class="hljs http">POST /api/templates HTTP/1.1
+Host: localhost:3000
+
+{
+  "title": "Neural Network for Image Classification",
+  "explanation": "A neural network implemented in Python for classifying images.",
+  "code": "import tensorflow as tf\n# Define and train neural network...",
+  "language": "Python",
+  "tags": ["machine learning", "neural network", "python", "image classification"]
+}
+
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-search-templates">
+                                    Search Templates
+                                    <a href="#request-templates-search-templates"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Searches for code templates based on query parameters.</p>
+
+                                    <p><strong>Query Parameters:</strong></p>
+
+                                    <ul>
+                                        <li>
+                                            <code>title</code> (String, Optional): Keyword to search in the template
+                                            title.
+                                        </li>
+                                        <li>
+                                            <code>tags</code> (String, Optional): Comma-separated list of tags to filter
+                                            templates.
+                                        </li>
+                                        <li>
+                                            <code>content</code> (String, Optional): Keyword to search within the code
+                                            content.
+                                        </li>
+                                        <li>
+                                            <code>page</code> (Integer, Optional): Page number for pagination (default:
+                                            1).
+                                        </li>
+                                        <li>
+                                            <code>limit</code> (Integer, Optional): Number of templates per page
+                                            (default: 5).
+                                        </li>
+                                        <li>
+                                            <code>userOnly</code> (Boolean, Optional): If <code>true</code>, filters
+                                            templates created by the authenticated user. <br />
+                                        </li>
+                                    </ul>
+
+                                    <p>
+                                        We can expect either a Sucessful responce here, 400 Bad Request (error in body)
+                                        or 401 Unauthorized. Examples are below:
+                                    </p>
+
+                                    <p>200 Ok</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 12,
+      &quot;title&quot;: &quot;Quick Sort Implementation&quot;,
+      &quot;explanation&quot;: &quot;An efficient sorting algorithm implemented in JavaScript.&quot;,
+      &quot;code&quot;: &quot;function quickSort(arr) { /* implementation */ }&quot;,
+      &quot;language&quot;: &quot;JavaScript&quot;,
+      &quot;createdAt&quot;: &quot;2024-05-06T17:00:00.000Z&quot;,
+      &quot;authorId&quot;: 7,
+      &quot;forkedFromId&quot;: null,
+      &quot;forks&quot;: [],
+      &quot;blogPosts&quot;: [...],
+      &quot;tags&quot;: [
+        { &quot;id&quot;: 2, &quot;name&quot;: &quot;sorting&quot; }
+      ]
+    }
+    // ...up to 5 templates
+  ],
+  &quot;meta&quot;: {
+    &quot;total&quot;: 10,
+    &quot;totalPages&quot;: 2,
+    &quot;page&quot;: 1
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-templates-search-templates-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-templates-search-templates-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-search-templates-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/templates?title=Sorting&tags=sorting&content=function&page=1&limit=5&userOnly=true"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-templates-search-templates-example-http">
+                                            <pre><code class="hljs http">GET /api/templates?title=Sorting&tags=sorting&content=function&page=1&limit=5&userOnly=true HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-retrieve-template-by-id">
+                                    Retrieve Template by ID
+                                    <a href="#request-templates-retrieve-template-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        This is simply supposed to get get the tempelated based on the ID (decided on
+                                        creation time auto-incremented). In the case above, it would return the template
+                                        with ID 1. We can expect the below responses: (example only)
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 1,
+    &quot;title&quot;: &quot;Bubble Sort Implementation&quot;,
+    &quot;explanation&quot;: &quot;A simple bubble sort algorithm implemented in Python.&quot;,
+    &quot;code&quot;: &quot;def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n-i-1):\n            if arr[j] &gt; arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j]&quot;,
+    &quot;language&quot;: &quot;Python&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-05T09:00:00.000Z&quot;,
+    &quot;authorId&quot;: 7,
+    &quot;forkedFromId&quot;: null,
+    &quot;forks&quot;: [...],
+    &quot;blogPosts&quot;: [...],
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 1, &quot;name&quot;: &quot;sorting&quot; }
+    ]
+  }
+}
+
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-templates-retrieve-template-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-templates-retrieve-template-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-retrieve-template-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/templates/1"</code></pre>
+                                        </div>
+                                        <div
+                                            class="tab-pane"
+                                            id="request-templates-retrieve-template-by-id-example-http"
+                                        >
+                                            <pre><code class="hljs http">GET /api/templates/1 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-update-template-by-id">
+                                    Update Template by ID
+                                    <a href="#request-templates-update-template-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Updates details of a specific code template by its ID. Expected Responses below:
+                                    </p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 2,
+    &quot;title&quot;: &quot;Updated Sorting Algorithms&quot;,
+    &quot;explanation&quot;: &quot;This template now includes quicksort and mergesort algorithms.&quot;,
+    &quot;code&quot;: &quot;function quickSort(arr) { /*...*/ }&quot;,
+    &quot;language&quot;: &quot;JavaScript&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-05T10:00:00.000Z&quot;,
+    &quot;authorId&quot;: 7,
+    &quot;forkedFromId&quot;: null,
+    &quot;forks&quot;: [...],
+    &quot;blogPosts&quot;: [...],
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 1, &quot;name&quot;: &quot;sorting&quot; },
+      { &quot;id&quot;: 7, &quot;name&quot;: &quot;algorithms&quot; },
+      { &quot;id&quot;: 8, &quot;name&quot;: &quot;advanced&quot; }
+    ]
+  }
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-templates-update-template-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-templates-update-template-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-update-template-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X PUT -d '{
+  "title": "Updated Sorting Algorithms",
+  "explanation": "This template now includes quicksort and mergesort algorithms.",
+  "code": "function quickSort(arr) { /*...*/ }",
+  "language": "JavaScript",
+  "tags": ["sorting", "algorithms", "advanced"]
+}
+' "http://localhost:3000/api/templates/1"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-templates-update-template-by-id-example-http">
+                                            <pre><code class="hljs http">PUT /api/templates/1 HTTP/1.1
+Host: localhost:3000
+
+{
+  "title": "Updated Sorting Algorithms",
+  "explanation": "This template now includes quicksort and mergesort algorithms.",
+  "code": "function quickSort(arr) { /*...*/ }",
+  "language": "JavaScript",
+  "tags": ["sorting", "algorithms", "advanced"]
+}
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-delete-template-by-id">
+                                    Delete Template by ID
+                                    <a href="#request-templates-delete-template-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Deletes a specific code template by its ID. Expected responses below:</p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;message&quot;: &quot;Template deleted successfully.&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-templates-delete-template-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-templates-delete-template-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-delete-template-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X DELETE "http://localhost:3000/api/templates/1"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-templates-delete-template-by-id-example-http">
+                                            <pre><code class="hljs http">DELETE /api/templates/1 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-templates-fork-template-by-id">
+                                    Fork Template by ID
+                                    <a href="#request-templates-fork-template-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Forks an existing code template, creating a new template based on the original.
+                                        Expected responses below:
+                                    </p>
+
+                                    <p>201 Created</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 13,
+    &quot;title&quot;: &quot;Bubble Sort Implementation - Forked&quot;,
+    &quot;explanation&quot;: &quot;Forked version with added optimizations.&quot;,
+    &quot;code&quot;: &quot;def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        already_sorted = True\n        for j in range(n - i - 1):\n            if arr[j] &gt; arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n                already_sorted = False\n        if already_sorted:\n            break&quot;,
+    &quot;language&quot;: &quot;Python&quot;,
+    &quot;createdAt&quot;: &quot;2024-05-06T18:00:00.000Z&quot;,
+    &quot;authorId&quot;: 7,
+    &quot;forkedFromId&quot;: 2,
+    &quot;forks&quot;: [],
+    &quot;blogPosts&quot;: [],
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 1, &quot;name&quot;: &quot;sorting&quot; },
+      { &quot;id&quot;: 9, &quot;name&quot;: &quot;optimized&quot; }
+    ]
+  }
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-templates-fork-template-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-templates-fork-template-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-templates-fork-template-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X POST "http://localhost:3000/api/templates/2"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-templates-fork-template-by-id-example-http">
+                                            <pre><code class="hljs http">POST /api/templates/2 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-posts">
+                                Posts
+                                <a href="#folder-posts"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <h3><strong>3. BlogPost Model</strong></h3>
+
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>title: String - Title of the blog post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>description: String - Summary of the post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>content: String - Full content.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>hidden: Boolean - Visibility flag, defaults to false.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>createdAt: DateTime - Creation timestamp, defaults to now.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>author: User - Author of the post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>authorId: Int - Foreign key to User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>templates: CodeTemplate[] - Linked code templates.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>comments: Comment[] - Comments on the post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reports: Report[] - Reports against the post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>tags: Tag[] - Tags associated with the post.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>upvotes: Int - Number of upvotes, defaults to 0.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>downvotes: Int - Number of downvotes, defaults to 0.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>votes: Vote[] - Votes cast on the post.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Many-to-One with User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Many-to-Many with CodeTemplate and Tag.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>One-to-Many with Comment, Report, and Vote.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Core content publishing mechanism.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Enables interaction through comments and votes.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Allows content categorization via tags.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Integrates code templates for enriched content.</strong></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-create-blog-post">
+                                    Create Blog Post
+                                    <a href="#request-posts-create-blog-post"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Creates a new blog post. Expected responses below:</p>
+
+                                    <p>201 Created</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 3,
+    &quot;title&quot;: &quot;Mastering Next.js&quot;,
+    &quot;description&quot;: &quot;A comprehensive guide to Next.js.&quot;,
+    &quot;content&quot;: &quot;In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...&quot;,
+    &quot;hidden&quot;: false,
+    &quot;createdAt&quot;: &quot;2024-05-05T10:00:00.000Z&quot;,
+    &quot;author&quot;: {
+      &quot;id&quot;: 1,
+      &quot;firstName&quot;: &quot;Alice&quot;,
+      &quot;lastName&quot;: &quot;Johnson&quot;,
+      &quot;email&quot;: &quot;alice.johnson@example.com&quot;
+    },
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 5, &quot;name&quot;: &quot;Next.js&quot; },
+      { &quot;id&quot;: 6, &quot;name&quot;: &quot;React&quot; },
+      { &quot;id&quot;: 7, &quot;name&quot;: &quot;Advanced&quot; }
+    ],
+    &quot;upvotes&quot;: 0,
+    &quot;downvotes&quot;: 0,
+    &quot;rating&quot;: 0
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-posts-create-blog-post-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-posts-create-blog-post-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-posts-create-blog-post-example-curl">
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+  "title": "Introduction to Sorting Algorithms",
+  "description": "An overview of popular sorting algorithms with examples.",
+  "content": "Sorting is a fundamental concept in computer science. This post explores popular algorithms like Bubble Sort, Merge Sort, and Quick Sort.",
+  "tags": ["algorithms", "sorting"]
+}' "http://localhost:3000/api/posts"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-create-blog-post-example-http">
+                                            <pre><code class="hljs http">POST /api/posts HTTP/1.1
+Host: localhost:3000
+
+{
+  "title": "Introduction to Sorting Algorithms",
+  "description": "An overview of popular sorting algorithms with examples.",
+  "content": "Sorting is a fundamental concept in computer science. This post explores popular algorithms like Bubble Sort, Merge Sort, and Quick Sort.",
+  "tags": ["algorithms", "sorting"]
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-search-blog-posts">
+                                    Search Blog Posts
+                                    <a href="#request-posts-search-blog-posts"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Retrieves a specific blog post by parameters. Responses:</p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 3,
+      &quot;title&quot;: &quot;Mastering Next.js&quot;,
+      &quot;description&quot;: &quot;A comprehensive guide to Next.js.&quot;,
+      &quot;content&quot;: &quot;In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...&quot;,
+      &quot;hidden&quot;: false,
+      &quot;createdAt&quot;: &quot;2024-05-05T10:00:00.000Z&quot;,
+      &quot;author&quot;: {
+        &quot;id&quot;: 1,
+        &quot;firstName&quot;: &quot;Alice&quot;,
+        &quot;lastName&quot;: &quot;Johnson&quot;,
+        &quot;email&quot;: &quot;alice.johnson@example.com&quot;
+      },
+      &quot;tags&quot;: [
+        { &quot;id&quot;: 5, &quot;name&quot;: &quot;Next.js&quot; },
+        { &quot;id&quot;: 6, &quot;name&quot;: &quot;React&quot; },
+        { &quot;id&quot;: 7, &quot;name&quot;: &quot;Advanced&quot; }
+      ],
+      &quot;upvotes&quot;: 5,
+      &quot;downvotes&quot;: 1,
+      &quot;rating&quot;: 4,
+      &quot;comments&quot;: [...],
+      &quot;reports&quot;: [...],
+      &quot;votes&quot;: [...]
+    }
+    // ... up to 5 blog posts
+  ],
+  &quot;meta&quot;: {
+    &quot;total&quot;: 1,
+    &quot;totalPages&quot;: 1,
+    &quot;page&quot;: 1
+  }
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-posts-search-blog-posts-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-posts-search-blog-posts-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-posts-search-blog-posts-example-curl">
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/posts?page=1&limit=5&sort=controversial"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-search-blog-posts-example-http">
+                                            <pre><code class="hljs http">GET /api/posts?page=1&limit=5&sort=controversial HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-retrieve-blog-post-by-id">
+                                    Retrieve Blog Post by ID
+                                    <a href="#request-posts-retrieve-blog-post-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>ID of the blog post to retrieve. Exptected Responses:</p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 3,
+    &quot;title&quot;: &quot;Mastering Next.js&quot;,
+    &quot;description&quot;: &quot;A comprehensive guide to Next.js.&quot;,
+    &quot;content&quot;: &quot;In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...&quot;,
+    &quot;hidden&quot;: false,
+    &quot;createdAt&quot;: &quot;2024-05-05T10:00:00.000Z&quot;,
+    &quot;author&quot;: {
+      &quot;id&quot;: 1,
+      &quot;firstName&quot;: &quot;Alice&quot;,
+      &quot;lastName&quot;: &quot;Johnson&quot;,
+      &quot;email&quot;: &quot;alice.johnson@example.com&quot;
+    },
+    &quot;tags&quot;: [
+      { &quot;id&quot;: 5, &quot;name&quot;: &quot;Next.js&quot; },
+      { &quot;id&quot;: 6, &quot;name&quot;: &quot;React&quot; },
+      { &quot;id&quot;: 7, &quot;name&quot;: &quot;Advanced&quot; }
+    ],
+    &quot;upvotes&quot;: 5,
+    &quot;downvotes&quot;: 1,
+    &quot;rating&quot;: 4,
+    &quot;comments&quot;: [...],
+    &quot;reports&quot;: [...],
+    &quot;votes&quot;: [...]
+  }
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-posts-retrieve-blog-post-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-posts-retrieve-blog-post-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-posts-retrieve-blog-post-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/posts/1"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-retrieve-blog-post-by-id-example-http">
+                                            <pre><code class="hljs http">GET /api/posts/1 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-update-blog-post-by-id">
+                                    Update Blog Post by ID
+                                    <a href="#request-posts-update-blog-post-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Updates details of a specific blog post by its ID. Expected Responses below:</p>
+
+                                    <p>200 OK - Successfully Updated Post</p>
+
+                                    <pre><code class="language-json">{
+  &quot;id&quot;: 1,
+  &quot;title&quot;: &quot;Updated Introduction to Sorting Algorithms&quot;,
+  &quot;description&quot;: &quot;An updated overview of sorting algorithms with examples.&quot;,
+  &quot;content&quot;: &quot;Sorting is essential in computer science. This updated post explores algorithms like Bubble Sort, Merge Sort, and Quick Sort in more depth.&quot;,
+  &quot;tags&quot;: [
+    { &quot;id&quot;: 5, &quot;name&quot;: &quot;algorithms&quot; },
+    { &quot;id&quot;: 6, &quot;name&quot;: &quot;sorting&quot; },
+    { &quot;id&quot;: 7, &quot;name&quot;: &quot;updated&quot; }
+  ],
+  &quot;templates&quot;: [
+    { &quot;id&quot;: 2, &quot;title&quot;: &quot;Merge Sort Template&quot; },
+    { &quot;id&quot;: 3, &quot;title&quot;: &quot;Quick Sort Template&quot; }
+  ],
+  &quot;upvotes&quot;: 3,
+  &quot;downvotes&quot;: 2,
+  &quot;author&quot;: {
+    &quot;id&quot;: 123,
+    &quot;firstName&quot;: &quot;Jane&quot;,
+    &quot;lastName&quot;: &quot;Doe&quot;
+  },
+  &quot;createdAt&quot;: &quot;2024-01-01T12:00:00Z&quot;,
+  &quot;updatedAt&quot;: &quot;2024-01-02T15:00:00Z&quot;
+}
+
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized: Valid authentication token required.&quot;
+}
+
+</code></pre>
+
+                                    <p>403 Forbidden</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Forbidden: You do not have permission to update this post.&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Blog post not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-posts-update-blog-post-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-posts-update-blog-post-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-posts-update-blog-post-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X PUT -d '{
+  "title": "Updated Introduction to Sorting Algorithms",
+  "description": "An updated overview of sorting algorithms with examples.",
+  "content": "Sorting is essential in computer science. This updated post explores algorithms like Bubble Sort, Merge Sort, and Quick Sort in more depth.",
+  "tags": ["algorithms", "sorting", "updated"],
+  "upvotes": 3,
+  "downvotes": 2
+}' "http://localhost:3000/api/posts/1"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-update-blog-post-by-id-example-http">
+                                            <pre><code class="hljs http">PUT /api/posts/1 HTTP/1.1
+Host: localhost:3000
+
+{
+  "title": "Updated Introduction to Sorting Algorithms",
+  "description": "An updated overview of sorting algorithms with examples.",
+  "content": "Sorting is essential in computer science. This updated post explores algorithms like Bubble Sort, Merge Sort, and Quick Sort in more depth.",
+  "tags": ["algorithms", "sorting", "updated"],
+  "upvotes": 3,
+  "downvotes": 2
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-delete-blog-post-by-id">
+                                    Delete Blog Post by ID
+                                    <a href="#request-posts-delete-blog-post-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Deletes a specific blog post by its ID. Expected Responses</p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;message&quot;: &quot;Blog post deleted successfully.&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Template not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-posts-delete-blog-post-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-posts-delete-blog-post-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-posts-delete-blog-post-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X DELETE "http://localhost:3000/api/posts/2"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-delete-blog-post-by-id-example-http">
+                                            <pre><code class="hljs http">DELETE /api/posts/2 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-posts-hide-post-by-id">
+                                    Hide Post by ID
+                                    <a href="#request-posts-hide-post-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div></div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-posts-hide-post-by-id-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-posts-hide-post-by-id-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-posts-hide-post-by-id-example-curl">
+                                            <pre><code class="hljs curl">curl -X PATCH "http://localhost:3000/api/posts/2"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-posts-hide-post-by-id-example-http">
+                                            <pre><code class="hljs http">PATCH /api/posts/2 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-ratings">
+                                Ratings
+                                <a href="#folder-ratings"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <h3><strong>7. Rating Model</strong></h3>
+
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >type: String - Vote type: &ldquo;upvote&rdquo; or
+                                                &ldquo;downvote&rdquo;.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>user: User - User who cast the vote.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>userId: Int - Foreign key to User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPost: BlogPost? - Voted blog post (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPostId: Int? - Foreign key to BlogPost (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>comment: Comment? - Voted comment (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>commentId: Int? - Foreign key to Comment (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>createdAt: DateTime - Vote timestamp, defaults to now.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Unique Constraints:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >@@unique([userId, blogPostId]) - Ensures a user can vote only once per
+                                                blog post.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >@@unique([userId, commentId]) - Ensures a user can vote only once per
+                                                comment.</strong
+                                            >
+                                        </p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Many-to-One with User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Many-to-One with BlogPost and Comment.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p>
+                                            <strong>Allows users to express approval or disapproval of content.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >Influences content ranking and visibility based on community
+                                                feedback.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Prevents vote manipulation through unique constraints.</strong></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-ratings-upvote-or-downvote-post-by-id">
+                                    Upvote or Downvote Post by ID
+                                    <a href="#request-ratings-upvote-or-downvote-post-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Allows users to upvote or downvote a blog post. Expected Response below:</p>
+
+                                    <p>200 OK:</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 1,
+    &quot;type&quot;: &quot;downvote&quot;,
+    &quot;userId&quot;: 2,
+    &quot;blogPostId&quot;: 2,
+    &quot;commentId&quot;: null,
+    &quot;createdAt&quot;: &quot;2024-05-06T14:00:00.000Z&quot;
+  }
+}
+
+</code></pre>
+
+                                    <p>400 Bad Request</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Provide either blogPostId or commentId, but not both.&quot;
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;User not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-ratings-upvote-or-downvote-post-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-ratings-upvote-or-downvote-post-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-ratings-upvote-or-downvote-post-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+    "action": "upvote"
+}' "http://localhost:3000/api/ratings/posts/3"</code></pre>
+                                        </div>
+                                        <div
+                                            class="tab-pane"
+                                            id="request-ratings-upvote-or-downvote-post-by-id-example-http"
+                                        >
+                                            <pre><code class="hljs http">POST /api/ratings/posts/3 HTTP/1.1
+Host: localhost:3000
+
+{
+    "action": "upvote"
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-ratings-upvote-or-downvote-comment-by-id">
+                                    Upvote or Downvote Comment by ID
+                                    <a href="#request-ratings-upvote-or-downvote-comment-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Allows users to upvote or downvote a comment. Expected below</p>
+
+                                    <p>200 OK</p>
+
+                                    <pre><code class="language-json">{
+  &quot;data&quot;: {
+    &quot;id&quot;: 2,
+    &quot;type&quot;: &quot;downvote&quot;,
+    &quot;userId&quot;: 1,
+    &quot;blogPostId&quot;: null,
+    &quot;commentId&quot;: 1,
+    &quot;createdAt&quot;: &quot;2024-05-06T15:00:00.000Z&quot;
+  }
+}
+
+</code></pre>
+
+                                    <p>400 Bad Request</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Provide either blogPostId or commentId, but not both.&quot;
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Comment/User not found&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-ratings-upvote-or-downvote-comment-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-ratings-upvote-or-downvote-comment-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-ratings-upvote-or-downvote-comment-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+    "action": "downvote"
+}' "http://localhost:3000/api/ratings/comments/1"</code></pre>
+                                        </div>
+                                        <div
+                                            class="tab-pane"
+                                            id="request-ratings-upvote-or-downvote-comment-by-id-example-http"
+                                        >
+                                            <pre><code class="hljs http">POST /api/ratings/comments/1 HTTP/1.1
+Host: localhost:3000
+
+{
+    "action": "downvote"
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-reports">
+                                Reports
+                                <a href="#folder-reports"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <h3><strong>6. Report Model</strong></h3>
+
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reason: String - Reason for reporting the content.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>createdAt: DateTime - Creation timestamp, defaults to now.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reporter: User - User who submitted the report.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reporterId: Int - Foreign key to User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPost: BlogPost? - Reported blog post (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPostId: Int? - Foreign key to BlogPost (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>comment: Comment? - Reported comment (Optional).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>commentId: Int? - Foreign key to Comment (Optional).</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Many-to-One with User (Reporter).</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Many-to-One with BlogPost and Comment.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p>
+                                            <strong>Enables users to report inappropriate or violating content.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>Supports platform moderation and content quality control.</strong>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-reports-retrieve-sort-reports">
+                                    Retrieve & Sort Reports
+                                    <a href="#request-reports-retrieve-sort-reports"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div></div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-reports-retrieve-sort-reports-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-reports-retrieve-sort-reports-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-reports-retrieve-sort-reports-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/reports?include=posts"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-reports-retrieve-sort-reports-example-http">
+                                            <pre><code class="hljs http">GET /api/reports?include=posts HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-reports-create-report">
+                                    Create Report
+                                    <a href="#request-reports-create-report"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        Allows a user to report a blog post or comment by specifying the target type and
+                                        ID. The reason field provides context for the report. Expected Responses:
+                                    </p>
+
+                                    <p>201 Created</p>
+
+                                    <pre><code class="language-json">{
+  &quot;id&quot;: 10,
+  &quot;reason&quot;: &quot;This post contains even more inappropriate language.&quot;,
+  &quot;userId&quot;: 123,
+  &quot;commentId&quot;: 4,
+  &quot;createdAt&quot;: &quot;2024-01-01T12:00:00Z&quot;
+}
+
+</code></pre>
+
+                                    <p>400 Bad Request</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Invalid data: 'targetType' and 'targetId' are required.&quot;
+}
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized: Valid authentication token required.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-reports-create-report-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-reports-create-report-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-reports-create-report-example-curl">
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+  "targetType": "post",
+  "targetId": 3,
+  "reason": "This post contains even more inappropriate language."
+}' "http://localhost:3000/api/reports"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-reports-create-report-example-http">
+                                            <pre><code class="hljs http">POST /api/reports HTTP/1.1
+Host: localhost:3000
+
+{
+  "targetType": "post",
+  "targetId": 3,
+  "reason": "This post contains even more inappropriate language."
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-comments">
+                                Comments
+                                <a href="#folder-comments"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div>
+                                <p><strong>Fields:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>id: Int - Primary key, auto-incremented.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>content: String - Comment text.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong>createdAt: DateTime - Creation timestamp, defaults to now.</strong>
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>author: User - Author of the comment.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>authorId: Int - Foreign key to User.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p>
+                                            <strong
+                                                >blogPost: BlogPost - Blog post the comment is associated with.</strong
+                                            >
+                                        </p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>blogPostId: Int - Foreign key to BlogPost.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>parent: Comment? - Parent comment if it&rsquo;s a reply.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>parentId: Int? - Foreign key to parent Comment.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>replies: Comment[] - Replies to the comment.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>reports: Report[] - Reports against the comment.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>upvotes: Int - Number of upvotes, defaults to 0.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>downvotes: Int - Number of downvotes, defaults to 0.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>votes: Vote[] - Votes cast on the comment.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Relationships:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Many-to-One with User and BlogPost.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Self-Referential One-to-Many for nested replies.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>One-to-Many with Report and Vote.</strong></p>
+                                    </li>
+                                </ul>
+
+                                <p><strong>Usage:</strong></p>
+
+                                <ul>
+                                    <li>
+                                        <p><strong>Facilitates user discussions and feedback on blog posts.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Supports threaded conversations through replies.</strong></p>
+                                    </li>
+
+                                    <li>
+                                        <p><strong>Allows community moderation via reports and votes.</strong></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-comments-hide-comment-by-id">
+                                    Hide Comment by ID
+                                    <a href="#request-comments-hide-comment-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>Allows an admin to hide a comment by its ID. Expected Responses:</p>
+
+                                    <p>200 OK - Content Hidden</p>
+
+                                    <pre><code class="language-json">{
+  &quot;id&quot;: 4,
+  &quot;content&quot;: &quot;This is the original comment content.&quot;,
+  &quot;isHidden&quot;: true,
+  &quot;authorId&quot;: 123,
+  &quot;blogPostId&quot;: 1,
+  &quot;upvotes&quot;: 5,
+  &quot;downvotes&quot;: 2,
+  &quot;createdAt&quot;: &quot;2024-01-01T10:00:00Z&quot;,
+  &quot;updatedAt&quot;: &quot;2024-01-01T12:00:00Z&quot;
+}
+
+
+</code></pre>
+
+                                    <p>401 Unauthorized</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Unauthorized: Valid authentication token required.&quot;
+}
+
+</code></pre>
+
+                                    <p>403 Forbidden</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Forbidden: Admin access required to hide comments.&quot;
+}
+
+</code></pre>
+
+                                    <p>404 Not Found</p>
+
+                                    <pre><code class="language-json">{
+  &quot;error&quot;: &quot;Comment not found.&quot;
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-comments-hide-comment-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-comments-hide-comment-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-comments-hide-comment-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X PATCH "http://localhost:3000/api/comments/4"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-comments-hide-comment-by-id-example-http">
+                                            <pre><code class="hljs http">PATCH /api/comments/4 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                            <div class="request">
+                                <h4 id="request-comments-retrieve-comment-by-id">
+                                    Retrieve Comment by ID
+                                    <a href="#request-comments-retrieve-comment-by-id"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div></div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a
+                                                href="#request-comments-retrieve-comment-by-id-example-curl"
+                                                data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a
+                                                href="#request-comments-retrieve-comment-by-id-example-http"
+                                                data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div
+                                            class="tab-pane active"
+                                            id="request-comments-retrieve-comment-by-id-example-curl"
+                                        >
+                                            <pre><code class="hljs curl">curl -X GET "http://localhost:3000/api/comments/1"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-comments-retrieve-comment-by-id-example-http">
+                                            <pre><code class="hljs http">GET /api/comments/1 HTTP/1.1
+Host: localhost:3000</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+
+                        <div class="endpoints-group">
+                            <h3 id="folder-runners">
+                                Runners
+                                <a href="#folder-runners"><i class="glyphicon glyphicon-link"></i></a>
+                            </h3>
+
+                            <div><p>This folder manages the server-side code execution.</p></div>
+
+                            <div class="request">
+                                <h4 id="request-runners-create-runner">
+                                    Create Runner
+                                    <a href="#request-runners-create-runner"
+                                        ><i class="glyphicon glyphicon-link"></i
+                                    ></a>
+                                </h4>
+
+                                <div>
+                                    <p>
+                                        This endpoint allows users to submit code in various programming languages,
+                                        which is then executed on the server. The user can provide code, specify the
+                                        language, and include any input required for execution via standard input
+                                        (stdin). The API returns the output of the code execution, execution time, and
+                                        any errors if the code fails to compile or run.
+                                    </p>
+
+                                    <p>200 OK - Execution Successful</p>
+
+                                    <pre><code class="language-json">{
+    &quot;output&quot;: &quot;Hello, World!\n&quot;,
+    &quot;timeTaken&quot;: 55,
+    &quot;success&quot;: true
+}
+
+</code></pre>
+                                </div>
+
+                                <div>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#request-runners-create-runner-example-curl" data-toggle="tab"
+                                                >Curl</a
+                                            >
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#request-runners-create-runner-example-http" data-toggle="tab"
+                                                >HTTP</a
+                                            >
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="request-runners-create-runner-example-curl">
+                                            <pre><code class="hljs curl">curl -X POST -d '{
+  "language": "JavaScript",
+  "code": "console.log('Hello, World!');",
+  "stdin": ""
+}
+' "http://localhost:3000/api/runners"</code></pre>
+                                        </div>
+                                        <div class="tab-pane" id="request-runners-create-runner-example-http">
+                                            <pre><code class="hljs http">POST /api/runners HTTP/1.1
+Host: localhost:3000
+
+{
+  "language": "JavaScript",
+  "code": "console.log('Hello, World!');",
+  "stdin": ""
+}
+</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('table:not(.table)').addClass('table table-bordered');
+            });
+        </script>
+    </body>
+</html>
