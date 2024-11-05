@@ -1,0 +1,898 @@
+{
+	"info": {
+		"_postman_id": "2c2cc275-53cd-49d4-9771-2869d866f469",
+		"name": "Scriptorium",
+		"description": "In CSC309, we're building \"Scriptorium,\" an innovative web app where users can write, execute, and manage code in multiple languages. Part 1 of the project focuses on creating the backend with Next.js, Prisma, and REST APIs to support features like code writing, syntax highlighting, and template saving. We'll be working in groups, and each team member is expected to contribute fairly. The deliverable is a fully functional backend that supports essential user stories and will be evaluated through interviews with TAs.\n\nTest Admin (for demonstration):  \nEmail: [admin@gmail.com](https://mailto:admin@gmail.com)\n\nPassword: admin123@",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39423707",
+		"_collection_link": "https://scriptorium-8675.postman.co/workspace/0c37feab-9b94-423b-8b64-06b49df734ea/collection/39423707-2c2cc275-53cd-49d4-9771-2869d866f469?action=share&source=collection_link&creator=39423707"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstName",
+									"value": "Latch",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Kapoor",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "latch.kapoor@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "postman-cloud:///1ef9b089-5021-4500-9cdc-9c76f860c3d7"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"3"
+							]
+						},
+						"description": "Retrieves details of a specific user by their ID. This is dependant on whatever post is present with ID 7, it would return that. Below is an example of a successful and an error request.\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 7,\n    \"firstName\": \"Adam\",\n    \"lastName\": \"John\",\n    \"email\": \"adamjohn@gmail.com\",\n    \"profilePicture\": null,\n    \"phoneNumber\": null,\n    \"isAdmin\": false,\n    \"templates\": [...],\n    \"blogPosts\": [...],\n    \"comments\": [...],\n    \"reports\": [...],\n    \"votes\": [...]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"User not found\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"James\",\n  \"lastName\": \"Don\",\n  \"profilePicture\": \"http://example.com/pic.jpg\",\n  \"phoneNumber\": \"123-456-7890\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"3"
+							]
+						},
+						"description": "Updates details of a specific user by their ID. This depens on if the user exist with ID 7. If so it will sucessfully update the User fields specified and will not change the ones not specified. Here is an example of a successful request and 2 error ones.\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 7,\n    \"firstName\": \"James\",\n    \"lastName\": \"Don\",\n    \"email\": \"jamesdon@gmail.com\",\n    \"profilePicture\": \"http://example.com/pic.jpg\",\n    \"phoneNumber\": \"123-456-7890\",\n    \"isAdmin\": false,\n    \"templates\": [...],\n    \"blogPosts\": [...],\n    \"comments\": [...],\n    \"reports\": [...],\n    \"votes\": [...]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"User not found\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "## **Database Models and Relationships**\n\n### **1\\. User Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **firstName: String - User's first name.**\n    \n- **lastName: String - User's last name.**\n    \n- **email: String - Unique email address.**\n    \n- **password: String - Hashed password.**\n    \n- **profilePicture: String? - Optional URL or file path.**\n    \n- **phoneNumber: String? - Optional contact number.**\n    \n- **isAdmin: Boolean - Indicates admin privileges, defaults to false.**\n    \n- **templates: CodeTemplate\\[\\] - Code templates created by the user.**\n    \n- **blogPosts: BlogPost\\[\\] - Blog posts authored by the user.**\n    \n- **comments: Comment\\[\\] - Comments made by the user.**\n    \n- **reports: Report\\[\\] - Reports submitted by the user.**\n    \n- **votes: Vote\\[\\] - Votes cast by the user.**\n    \n\n**Relationships:**\n\n- **One-to-Many with CodeTemplate, BlogPost, Comment, Report, and Vote.**\n    \n\n**Usage:**\n\n- **Central to user management, authentication, and authorization.**\n    \n- **Enables users to create content (templates, posts), interact (comments, votes), and report inappropriate content.**"
+		},
+		{
+			"name": "Sessions",
+			"item": [
+				{
+					"name": "Create Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin1@scriptorium.com\",\n  \"password\": \"admin123@\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						},
+						"description": "Description: Authenticates a user and creates a new session (login). This can result in either a sucessful creation or an error request. Examples below:\n\n201 Created\n\n``` json\n{\n  \"data\": {\n    \"sessionId\": \"unique-session-id\",\n    \"userId\": 7,\n    \"token\": \"jwt-token-string\",\n    \"createdAt\": \"2024-05-06T10:00:00.000Z\"\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Invalid email or password.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Session",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						},
+						"description": "Description: Refreshes an existing session token. This would refresh the User Token (session), and generate a new token for the user to be able to login with. Here are examples of each of the responses below:\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"sessionId\": \"unique-session-id\",\n    \"userId\": 7,\n    \"token\": \"new-jwt-token-string\",\n    \"createdAt\": \"2024-05-06T11:00:00.000Z\"\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Invalid refresh token.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"sessions"
+							]
+						},
+						"description": "Deletes an existing session (logout). This call to delete a session will either return with success or an error. Examples are below:\n\n200 OK\n\n``` json\n{\n  \"message\": \"Session deleted successfully.\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder is concerned with the creation and management of user sessions using JWT access and refresh tokens."
+		},
+		{
+			"name": "Templates",
+			"item": [
+				{
+					"name": "Create Template",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Neural Network for Image Classification\",\n  \"explanation\": \"A neural network implemented in Python for classifying images.\",\n  \"code\": \"import tensorflow as tf\\n# Define and train neural network...\",\n  \"language\": \"Python\",\n  \"tags\": [\"machine learning\", \"neural network\", \"python\", \"image classification\"]\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/templates",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates"
+							]
+						},
+						"description": "Creates a new code template. This call to create a tempelate can result in 3 different return codes.\n\n201 Created\n\n``` json\n{\n  \"data\": {\n    \"id\": 10,\n    \"title\": \"Neural Network for Image Classification\",\n    \"explanation\": \"A neural network implemented in Python for classifying images.\",\n    \"code\": \"import tensorflow as tf\\n# Define and train neural network...\",\n    \"language\": \"Python\",\n    \"createdAt\": \"2024-05-06T16:00:00.000Z\",\n    \"authorId\": 7,\n    \"forkedFromId\": null,\n    \"forks\": [],\n    \"blogPosts\": [],\n    \"tags\": [\n      { \"id\": 3, \"name\": \"machine learning\" },\n      { \"id\": 4, \"name\": \"neural network\" },\n      { \"id\": 5, \"name\": \"python\" },\n      { \"id\": 6, \"name\": \"image classification\" }\n    ]\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/templates?title=Sorting&tags=sorting&content=function&page=1&limit=5&userOnly=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "Sorting"
+								},
+								{
+									"key": "tags",
+									"value": "sorting"
+								},
+								{
+									"key": "content",
+									"value": "function"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "userOnly",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Searches for code templates based on query parameters.\n\n**Query Parameters:**\n\n- `title` (String, Optional): Keyword to search in the template title.\n- `tags` (String, Optional): Comma-separated list of tags to filter templates.\n- `content` (String, Optional): Keyword to search within the code content.\n- `page` (Integer, Optional): Page number for pagination (default: 1).\n- `limit` (Integer, Optional): Number of templates per page (default: 5).\n- `userOnly` (Boolean, Optional): If `true`, filters templates created by the authenticated user.\n    \n\nWe can expect either a Sucessful responce here, 400 Bad Request (error in body) or 401 Unauthorized. Examples are below:\n\n200 Ok\n\n``` json\n{\n  \"data\": [\n    {\n      \"id\": 12,\n      \"title\": \"Quick Sort Implementation\",\n      \"explanation\": \"An efficient sorting algorithm implemented in JavaScript.\",\n      \"code\": \"function quickSort(arr) { /* implementation */ }\",\n      \"language\": \"JavaScript\",\n      \"createdAt\": \"2024-05-06T17:00:00.000Z\",\n      \"authorId\": 7,\n      \"forkedFromId\": null,\n      \"forks\": [],\n      \"blogPosts\": [...],\n      \"tags\": [\n        { \"id\": 2, \"name\": \"sorting\" }\n      ]\n    }\n    // ...up to 5 templates\n  ],\n  \"meta\": {\n    \"total\": 10,\n    \"totalPages\": 2,\n    \"page\": 1\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Template by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/templates/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates",
+								"1"
+							]
+						},
+						"description": "This is simply supposed to get get the tempelated based on the ID (decided on creation time auto-incremented). In the case above, it would return the template with ID 1. We can expect the below responses: (example only)\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 1,\n    \"title\": \"Bubble Sort Implementation\",\n    \"explanation\": \"A simple bubble sort algorithm implemented in Python.\",\n    \"code\": \"def bubble_sort(arr):\\n    n = len(arr)\\n    for i in range(n):\\n        for j in range(0, n-i-1):\\n            if arr[j] > arr[j+1]:\\n                arr[j], arr[j+1] = arr[j+1], arr[j]\",\n    \"language\": \"Python\",\n    \"createdAt\": \"2024-05-05T09:00:00.000Z\",\n    \"authorId\": 7,\n    \"forkedFromId\": null,\n    \"forks\": [...],\n    \"blogPosts\": [...],\n    \"tags\": [\n      { \"id\": 1, \"name\": \"sorting\" }\n    ]\n  }\n}\n\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Template by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Sorting Algorithms\",\n  \"explanation\": \"This template now includes quicksort and mergesort algorithms.\",\n  \"code\": \"function quickSort(arr) { /*...*/ }\",\n  \"language\": \"JavaScript\",\n  \"tags\": [\"sorting\", \"algorithms\", \"advanced\"]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/templates/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates",
+								"1"
+							]
+						},
+						"description": "Updates details of a specific code template by its ID. Expected Responses below:\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 2,\n    \"title\": \"Updated Sorting Algorithms\",\n    \"explanation\": \"This template now includes quicksort and mergesort algorithms.\",\n    \"code\": \"function quickSort(arr) { /*...*/ }\",\n    \"language\": \"JavaScript\",\n    \"createdAt\": \"2024-05-05T10:00:00.000Z\",\n    \"authorId\": 7,\n    \"forkedFromId\": null,\n    \"forks\": [...],\n    \"blogPosts\": [...],\n    \"tags\": [\n      { \"id\": 1, \"name\": \"sorting\" },\n      { \"id\": 7, \"name\": \"algorithms\" },\n      { \"id\": 8, \"name\": \"advanced\" }\n    ]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Template by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/templates/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates",
+								"1"
+							]
+						},
+						"description": "Deletes a specific code template by its ID. Expected responses below:\n\n200 OK\n\n``` json\n{\n  \"message\": \"Template deleted successfully.\"\n}\n\n ```\n\n404 Not found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Fork Template by ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/templates/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"templates",
+								"2"
+							]
+						},
+						"description": "Forks an existing code template, creating a new template based on the original. Expected responses below:\n\n201 Created\n\n``` json\n{\n  \"data\": {\n    \"id\": 13,\n    \"title\": \"Bubble Sort Implementation - Forked\",\n    \"explanation\": \"Forked version with added optimizations.\",\n    \"code\": \"def bubble_sort(arr):\\n    n = len(arr)\\n    for i in range(n):\\n        already_sorted = True\\n        for j in range(n - i - 1):\\n            if arr[j] > arr[j + 1]:\\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\\n                already_sorted = False\\n        if already_sorted:\\n            break\",\n    \"language\": \"Python\",\n    \"createdAt\": \"2024-05-06T18:00:00.000Z\",\n    \"authorId\": 7,\n    \"forkedFromId\": 2,\n    \"forks\": [],\n    \"blogPosts\": [],\n    \"tags\": [\n      { \"id\": 1, \"name\": \"sorting\" },\n      { \"id\": 9, \"name\": \"optimized\" }\n    ]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "### **2\\. CodeTemplate Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **title: String - Title of the code template.**\n    \n- **explanation: String - Description of the template's purpose.**\n    \n- **code: String - The code snippet.**\n    \n- **language: String - Programming language (e.g., JavaScript, Python).**\n    \n- **createdAt: DateTime - Creation timestamp, defaults to now.**\n    \n- **author: User - Author of the template.**\n    \n- **authorId: Int - Foreign key to User.**\n    \n- **forkedFrom: CodeTemplate? - Reference to original template if forked.**\n    \n- **forkedFromId: Int? - Foreign key to parent CodeTemplate.**\n    \n- **forks: CodeTemplate\\[\\] - Templates forked from this template.**\n    \n- **blogPosts: BlogPost\\[\\] - Blog posts linking this template.**\n    \n- **tags: Tag\\[\\] - Tags associated with the template.**\n    \n\n**Relationships:**\n\n- **Many-to-One with User.**\n    \n- **Self-Referential Many-to-One for forking.**\n    \n- **Many-to-Many with BlogPost and Tag.**\n    \n\n**Usage:**\n\n- **Facilitates code sharing and collaboration.**\n    \n- **Supports versioning through forking.**\n    \n- **Enhances blog posts with relevant code examples.**\n    \n- **Organized via tags for easy discovery.**"
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Create Comment by Post ID",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"content\": \"And I agree with your points on Merge Sort!\",\n  \"parentId\": null // ID of the parent comment to which this is a reply\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/posts/3/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"posts",
+										"3",
+										"comments"
+									]
+								},
+								"description": "Adds a new comment or reply to a specific blog post by ID. Expected Responses below:\n\n201 Created\n\n``` json\n{\n  \"data\": {\n    \"id\": 1,\n    \"content\": \"I agree with your points on Merge Sort!\",\n    \"createdAt\": \"2024-05-06T12:00:00.000Z\",\n    \"author\": {\n      \"id\": 2,\n      \"firstName\": \"Bob\",\n      \"lastName\": \"Smith\",\n      \"email\": \"bob.smith@example.com\"\n    },\n    \"blogPostId\": 3,\n    \"parentId\": null,\n    \"replies\": [],\n    \"reports\": [],\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"votes\": []\n  }\n}\n\n ```\n\n201 Created (Reply)\n\n``` json\n{\n  \"data\": {\n    \"id\": 2,\n    \"content\": \"Thank you, Bob!\",\n    \"createdAt\": \"2024-05-06T13:00:00.000Z\",\n    \"author\": {\n      \"id\": 1,\n      \"firstName\": \"Alice\",\n      \"lastName\": \"Johnson\",\n      \"email\": \"alice.johnson@example.com\"\n    },\n    \"blogPostId\": 3,\n    \"parentId\": 1,\n    \"replies\": [],\n    \"reports\": [],\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"votes\": []\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized access.\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```\n\n404 (Parent not Found)\n\n``` json\n{\n  \"error\": \"Parent comment not found.\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Comments by Post ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/posts/3/comments?sort=best",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"posts",
+										"3",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "best"
+										}
+									]
+								},
+								"description": "Retrieves a specific comment by its ID. Expected Responses below:\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 1,\n    \"content\": \"I agree with your points on Merge Sort!\",\n    \"createdAt\": \"2024-05-06T12:00:00.000Z\",\n    \"author\": {\n      \"id\": 2,\n      \"firstName\": \"Bob\",\n      \"lastName\": \"Smith\",\n      \"email\": \"bob.smith@example.com\"\n    },\n    \"blogPostId\": 3,\n    \"parentId\": null,\n    \"replies\": [...],\n    \"reports\": [...],\n    \"upvotes\": 2,\n    \"downvotes\": 0,\n    \"votes\": [...]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```"
+							},
+							"response": []
+						}
+					],
+					"description": "### **5\\. Comment Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **content: String - Comment text.**\n    \n- **createdAt: DateTime - Creation timestamp, defaults to now.**\n    \n- **author: User - Author of the comment.**\n    \n- **authorId: Int - Foreign key to User.**\n    \n- **blogPost: BlogPost - Blog post the comment is associated with.**\n    \n- **blogPostId: Int - Foreign key to BlogPost.**\n    \n- **parent: Comment? - Parent comment if it's a reply.**\n    \n- **parentId: Int? - Foreign key to parent Comment.**\n    \n- **replies: Comment\\[\\] - Replies to the comment.**\n    \n- **reports: Report\\[\\] - Reports against the comment.**\n    \n- **upvotes: Int - Number of upvotes, defaults to 0.**\n    \n- **downvotes: Int - Number of downvotes, defaults to 0.**\n    \n- **votes: Vote\\[\\] - Votes cast on the comment.**\n    \n\n**Relationships:**\n\n- **Many-to-One with User and BlogPost.**\n    \n- **Self-Referential One-to-Many for nested replies.**\n    \n- **One-to-Many with Report and Vote.**\n    \n\n**Usage:**\n\n- **Facilitates user discussions and feedback on blog posts.**\n    \n- **Supports threaded conversations through replies.**\n    \n- **Allows community moderation via reports and votes.**"
+				},
+				{
+					"name": "Create Blog Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Introduction to Sorting Algorithms\",\n  \"description\": \"An overview of popular sorting algorithms with examples.\",\n  \"content\": \"Sorting is a fundamental concept in computer science. This post explores popular algorithms like Bubble Sort, Merge Sort, and Quick Sort.\",\n  \"tags\": [\"algorithms\", \"sorting\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts"
+							]
+						},
+						"description": "Creates a new blog post. Expected responses below:\n\n201 Created\n\n``` json\n{\n  \"data\": {\n    \"id\": 3,\n    \"title\": \"Mastering Next.js\",\n    \"description\": \"A comprehensive guide to Next.js.\",\n    \"content\": \"In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...\",\n    \"hidden\": false,\n    \"createdAt\": \"2024-05-05T10:00:00.000Z\",\n    \"author\": {\n      \"id\": 1,\n      \"firstName\": \"Alice\",\n      \"lastName\": \"Johnson\",\n      \"email\": \"alice.johnson@example.com\"\n    },\n    \"tags\": [\n      { \"id\": 5, \"name\": \"Next.js\" },\n      { \"id\": 6, \"name\": \"React\" },\n      { \"id\": 7, \"name\": \"Advanced\" }\n    ],\n    \"upvotes\": 0,\n    \"downvotes\": 0,\n    \"rating\": 0\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Blog Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/posts?page=1&limit=5&sort=controversial",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "controversial"
+								}
+							]
+						},
+						"description": "Retrieves a specific blog post by parameters. Responses:\n\n200 OK\n\n``` json\n{\n  \"data\": [\n    {\n      \"id\": 3,\n      \"title\": \"Mastering Next.js\",\n      \"description\": \"A comprehensive guide to Next.js.\",\n      \"content\": \"In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...\",\n      \"hidden\": false,\n      \"createdAt\": \"2024-05-05T10:00:00.000Z\",\n      \"author\": {\n        \"id\": 1,\n        \"firstName\": \"Alice\",\n        \"lastName\": \"Johnson\",\n        \"email\": \"alice.johnson@example.com\"\n      },\n      \"tags\": [\n        { \"id\": 5, \"name\": \"Next.js\" },\n        { \"id\": 6, \"name\": \"React\" },\n        { \"id\": 7, \"name\": \"Advanced\" }\n      ],\n      \"upvotes\": 5,\n      \"downvotes\": 1,\n      \"rating\": 4,\n      \"comments\": [...],\n      \"reports\": [...],\n      \"votes\": [...]\n    }\n    // ... up to 5 blog posts\n  ],\n  \"meta\": {\n    \"total\": 1,\n    \"totalPages\": 1,\n    \"page\": 1\n  }\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Blog Post by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/posts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						},
+						"description": "ID of the blog post to retrieve. Exptected Responses:\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 3,\n    \"title\": \"Mastering Next.js\",\n    \"description\": \"A comprehensive guide to Next.js.\",\n    \"content\": \"In this blog post, we delve deep into Next.js features like server-side rendering, static site generation, and API routes...\",\n    \"hidden\": false,\n    \"createdAt\": \"2024-05-05T10:00:00.000Z\",\n    \"author\": {\n      \"id\": 1,\n      \"firstName\": \"Alice\",\n      \"lastName\": \"Johnson\",\n      \"email\": \"alice.johnson@example.com\"\n    },\n    \"tags\": [\n      { \"id\": 5, \"name\": \"Next.js\" },\n      { \"id\": 6, \"name\": \"React\" },\n      { \"id\": 7, \"name\": \"Advanced\" }\n    ],\n    \"upvotes\": 5,\n    \"downvotes\": 1,\n    \"rating\": 4,\n    \"comments\": [...],\n    \"reports\": [...],\n    \"votes\": [...]\n  }\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blog Post by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Updated Introduction to Sorting Algorithms\",\n  \"description\": \"An updated overview of sorting algorithms with examples.\",\n  \"content\": \"Sorting is essential in computer science. This updated post explores algorithms like Bubble Sort, Merge Sort, and Quick Sort in more depth.\",\n  \"tags\": [\"algorithms\", \"sorting\", \"updated\"],\n  \"upvotes\": 3,\n  \"downvotes\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/posts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts",
+								"1"
+							]
+						},
+						"description": "Updates details of a specific blog post by its ID. Expected Responses below:\n\n200 OK - Successfully Updated Post\n\n``` json\n{\n  \"id\": 1,\n  \"title\": \"Updated Introduction to Sorting Algorithms\",\n  \"description\": \"An updated overview of sorting algorithms with examples.\",\n  \"content\": \"Sorting is essential in computer science. This updated post explores algorithms like Bubble Sort, Merge Sort, and Quick Sort in more depth.\",\n  \"tags\": [\n    { \"id\": 5, \"name\": \"algorithms\" },\n    { \"id\": 6, \"name\": \"sorting\" },\n    { \"id\": 7, \"name\": \"updated\" }\n  ],\n  \"templates\": [\n    { \"id\": 2, \"title\": \"Merge Sort Template\" },\n    { \"id\": 3, \"title\": \"Quick Sort Template\" }\n  ],\n  \"upvotes\": 3,\n  \"downvotes\": 2,\n  \"author\": {\n    \"id\": 123,\n    \"firstName\": \"Jane\",\n    \"lastName\": \"Doe\"\n  },\n  \"createdAt\": \"2024-01-01T12:00:00Z\",\n  \"updatedAt\": \"2024-01-02T15:00:00Z\"\n}\n\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized: Valid authentication token required.\"\n}\n\n ```\n\n403 Forbidden\n\n``` json\n{\n  \"error\": \"Forbidden: You do not have permission to update this post.\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Blog post not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Blog Post by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/posts/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts",
+								"2"
+							]
+						},
+						"description": "Deletes a specific blog post by its ID. Expected Responses\n\n200 OK\n\n``` json\n{\n  \"message\": \"Blog post deleted successfully.\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Template not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Hide Post by ID",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/posts/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"posts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### **3\\. BlogPost Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **title: String - Title of the blog post.**\n    \n- **description: String - Summary of the post.**\n    \n- **content: String - Full content.**\n    \n- **hidden: Boolean - Visibility flag, defaults to false.**\n    \n- **createdAt: DateTime - Creation timestamp, defaults to now.**\n    \n- **author: User - Author of the post.**\n    \n- **authorId: Int - Foreign key to User.**\n    \n- **templates: CodeTemplate\\[\\] - Linked code templates.**\n    \n- **comments: Comment\\[\\] - Comments on the post.**\n    \n- **reports: Report\\[\\] - Reports against the post.**\n    \n- **tags: Tag\\[\\] - Tags associated with the post.**\n    \n- **upvotes: Int - Number of upvotes, defaults to 0.**\n    \n- **downvotes: Int - Number of downvotes, defaults to 0.**\n    \n- **votes: Vote\\[\\] - Votes cast on the post.**\n    \n\n**Relationships:**\n\n- **Many-to-One with User.**\n    \n- **Many-to-Many with CodeTemplate and Tag.**\n    \n- **One-to-Many with Comment, Report, and Vote.**\n    \n\n**Usage:**\n\n- **Core content publishing mechanism.**\n    \n- **Enables interaction through comments and votes.**\n    \n- **Allows content categorization via tags.**\n    \n- **Integrates code templates for enriched content.**"
+		},
+		{
+			"name": "Ratings",
+			"item": [
+				{
+					"name": "Upvote or Downvote Post by ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"upvote\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ratings/posts/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ratings",
+								"posts",
+								"3"
+							]
+						},
+						"description": "Allows users to upvote or downvote a blog post. Expected Response below:\n\n200 OK:\n\n``` json\n{\n  \"data\": {\n    \"id\": 1,\n    \"type\": \"downvote\",\n    \"userId\": 2,\n    \"blogPostId\": 2,\n    \"commentId\": null,\n    \"createdAt\": \"2024-05-06T14:00:00.000Z\"\n  }\n}\n\n ```\n\n400 Bad Request\n\n``` json\n{\n  \"error\": \"Provide either blogPostId or commentId, but not both.\"\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"User not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Upvote or Downvote Comment by ID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": \"downvote\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/ratings/comments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"ratings",
+								"comments",
+								"1"
+							]
+						},
+						"description": "Allows users to upvote or downvote a comment. Expected below\n\n200 OK\n\n``` json\n{\n  \"data\": {\n    \"id\": 2,\n    \"type\": \"downvote\",\n    \"userId\": 1,\n    \"blogPostId\": null,\n    \"commentId\": 1,\n    \"createdAt\": \"2024-05-06T15:00:00.000Z\"\n  }\n}\n\n ```\n\n400 Bad Request\n\n``` json\n{\n  \"error\": \"Provide either blogPostId or commentId, but not both.\"\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Comment/User not found\" \n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "### **7\\. Rating Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **type: String - Vote type: \"upvote\" or \"downvote\".**\n    \n- **user: User - User who cast the vote.**\n    \n- **userId: Int - Foreign key to User.**\n    \n- **blogPost: BlogPost? - Voted blog post (Optional).**\n    \n- **blogPostId: Int? - Foreign key to BlogPost (Optional).**\n    \n- **comment: Comment? - Voted comment (Optional).**\n    \n- **commentId: Int? - Foreign key to Comment (Optional).**\n    \n- **createdAt: DateTime - Vote timestamp, defaults to now.**\n    \n\n**Unique Constraints:**\n\n- **@@unique(\\[userId, blogPostId\\]) - Ensures a user can vote only once per blog post.**\n    \n- **@@unique(\\[userId, commentId\\]) - Ensures a user can vote only once per comment.**\n    \n\n**Relationships:**\n\n- **Many-to-One with User.**\n    \n- **Many-to-One with BlogPost and Comment.**\n    \n\n**Usage:**\n\n- **Allows users to express approval or disapproval of content.**\n    \n- **Influences content ranking and visibility based on community feedback.**\n    \n- **Prevents vote manipulation through unique constraints.**"
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Retrieve & Sort Reports",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/reports?include=posts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "include",
+									"value": "posts"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Report",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"targetType\": \"post\",\n  \"targetId\": 3,\n  \"reason\": \"This post contains even more inappropriate language.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"reports"
+							]
+						},
+						"description": "Allows a user to report a blog post or comment by specifying the target type and ID. The reason field provides context for the report. Expected Responses:  \n  \n201 Created\n\n``` json\n{\n  \"id\": 10,\n  \"reason\": \"This post contains even more inappropriate language.\",\n  \"userId\": 123,\n  \"commentId\": 4,\n  \"createdAt\": \"2024-01-01T12:00:00Z\"\n}\n\n ```\n\n400 Bad Request\n\n``` json\n{\n  \"error\": \"Invalid data: 'targetType' and 'targetId' are required.\"\n}\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized: Valid authentication token required.\"\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "### **6\\. Report Model**\n\n**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **reason: String - Reason for reporting the content.**\n    \n- **createdAt: DateTime - Creation timestamp, defaults to now.**\n    \n- **reporter: User - User who submitted the report.**\n    \n- **reporterId: Int - Foreign key to User.**\n    \n- **blogPost: BlogPost? - Reported blog post (Optional).**\n    \n- **blogPostId: Int? - Foreign key to BlogPost (Optional).**\n    \n- **comment: Comment? - Reported comment (Optional).**\n    \n- **commentId: Int? - Foreign key to Comment (Optional).**\n    \n\n**Relationships:**\n\n- **Many-to-One with User (Reporter).**\n    \n- **Many-to-One with BlogPost and Comment.**\n    \n\n**Usage:**\n\n- **Enables users to report inappropriate or violating content.**\n    \n- **Supports platform moderation and content quality control.**"
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Hide Comment by ID",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/comments/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comments",
+								"4"
+							]
+						},
+						"description": "Allows an admin to hide a comment by its ID. Expected Responses:\n\n200 OK - Content Hidden\n\n``` json\n{\n  \"id\": 4,\n  \"content\": \"This is the original comment content.\",\n  \"isHidden\": true,\n  \"authorId\": 123,\n  \"blogPostId\": 1,\n  \"upvotes\": 5,\n  \"downvotes\": 2,\n  \"createdAt\": \"2024-01-01T10:00:00Z\",\n  \"updatedAt\": \"2024-01-01T12:00:00Z\"\n}\n\n\n ```\n\n401 Unauthorized\n\n``` json\n{\n  \"error\": \"Unauthorized: Valid authentication token required.\"\n}\n\n ```\n\n403 Forbidden\n\n``` json\n{\n  \"error\": \"Forbidden: Admin access required to hide comments.\"\n}\n\n ```\n\n404 Not Found\n\n``` json\n{\n  \"error\": \"Comment not found.\"\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Comment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/comments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "**Fields:**\n\n- **id: Int - Primary key, auto-incremented.**\n    \n- **content: String - Comment text.**\n    \n- **createdAt: DateTime - Creation timestamp, defaults to now.**\n    \n- **author: User - Author of the comment.**\n    \n- **authorId: Int - Foreign key to User.**\n    \n- **blogPost: BlogPost - Blog post the comment is associated with.**\n    \n- **blogPostId: Int - Foreign key to BlogPost.**\n    \n- **parent: Comment? - Parent comment if it's a reply.**\n    \n- **parentId: Int? - Foreign key to parent Comment.**\n    \n- **replies: Comment\\[\\] - Replies to the comment.**\n    \n- **reports: Report\\[\\] - Reports against the comment.**\n    \n- **upvotes: Int - Number of upvotes, defaults to 0.**\n    \n- **downvotes: Int - Number of downvotes, defaults to 0.**\n    \n- **votes: Vote\\[\\] - Votes cast on the comment.**\n    \n\n**Relationships:**\n\n- **Many-to-One with User and BlogPost.**\n    \n- **Self-Referential One-to-Many for nested replies.**\n    \n- **One-to-Many with Report and Vote.**\n    \n\n**Usage:**\n\n- **Facilitates user discussions and feedback on blog posts.**\n    \n- **Supports threaded conversations through replies.**\n    \n- **Allows community moderation via reports and votes.**"
+		},
+		{
+			"name": "Runners",
+			"item": [
+				{
+					"name": "Create Runner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"language\": \"JavaScript\",\n  \"code\": \"console.log('Hello, World!');\",\n  \"stdin\": \"\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/runners",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"runners"
+							]
+						},
+						"description": "This endpoint allows users to submit code in various programming languages, which is then executed on the server. The user can provide code, specify the language, and include any input required for execution via standard input (stdin). The API returns the output of the code execution, execution time, and any errors if the code fails to compile or run.\n\n200 OK - Execution Successful\n\n``` json\n{\n    \"output\": \"Hello, World!\\n\",\n    \"timeTaken\": 55,\n    \"success\": true\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "This folder manages the server-side code execution."
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"health"
+					]
+				},
+				"description": "Checks if the API server is online and functioning. Expected Responses:  \n  \n200 OK\n\n``` json\n{\n  \"status\": \"Online\",\n  \"message\": \"API is running smoothly.\"\n}\n\n ```\n\n500 Internal Server Error\n\n``` json\n{\n  \"status\": \"Offline\",\n  \"message\": \"API is experiencing issues.\"\n}\n\n ```"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbjFAc2NyaXB0b3JpdW0uY29tIiwiZmlyc3ROYW1lIjoiQWRtaW4iLCJsYXN0TmFtZSI6IlVzZXIxIiwiaXNBZG1pbiI6dHJ1ZSwiZXhwIjoxNzMxMzcxNDYxfQ._b6_isOlq5RgqcYDvlan0PS9YzoR9wdI3qudrD4JsWc",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
