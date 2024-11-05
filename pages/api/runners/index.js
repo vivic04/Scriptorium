@@ -43,18 +43,18 @@ function getFileExtension(language) {
 
 // Helper function to get the compile and run command
 function getCommand(language, filePath, inputFilePath) {
-    const inputRedirection = inputFilePath ? `< ${inputFilePath}` : '';
+    const inputRedirection = inputFilePath ? `< "${inputFilePath}"` : '';
     switch (language) {
         case 'C':
-            return `gcc ${filePath} -o ${filePath}.out && ${filePath}.out ${inputRedirection}`;
+            return `gcc "${filePath}" -o "${filePath}.out" && "${filePath}.out" ${inputRedirection}`;
         case 'C++':
-            return `g++ ${filePath} -o ${filePath}.out && ${filePath}.out ${inputRedirection}`;
+            return `g++ "${filePath}" -o "${filePath}.out" && "${filePath}.out" ${inputRedirection}`;
         case 'Java':
-            return `javac ${filePath} && java -cp ${TEMP_DIR} Main ${inputRedirection}`;
+            return `javac "${filePath}" && java -cp "${TEMP_DIR}" Main ${inputRedirection}`;
         case 'Python':
-            return `python3 ${filePath} ${inputRedirection}`;
+            return `python3 "${filePath}" ${inputRedirection}`;
         case 'JavaScript':
-            return `node ${filePath} ${inputRedirection}`;
+            return `node "${filePath}" ${inputRedirection}`;
         default:
             throw new Error('Unsupported language');
     }
