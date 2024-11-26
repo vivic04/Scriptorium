@@ -36,6 +36,7 @@ function getFileExtension(language) {
             return 'py';
         case 'JavaScript':
             return 'js';
+            // Add more languages as needed
         default:
             throw new Error('Unsupported language');
     }
@@ -55,6 +56,7 @@ function getCommand(language, filePath, inputFilePath) {
             return `python3 "${filePath}" ${inputRedirection}`;
         case 'JavaScript':
             return `node "${filePath}" ${inputRedirection}`;
+            // Add more languages as needed
         default:
             throw new Error('Unsupported language');
     }
@@ -95,7 +97,7 @@ export default async function handler(req, res) {
             fs.unlinkSync(filePath);
             if (inputFilePath && fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
 
-            // Check for existence of output file before trying to delete it
+            // Clean up compiled files if they exist
             if (language === 'C' || language === 'C++') {
                 const outputFilePath = `${filePath}.out`;
                 if (fs.existsSync(outputFilePath)) {
@@ -110,36 +112,28 @@ export default async function handler(req, res) {
                 }
             }
 
-            // Check for specific errors (timeout, memory issues, etc.)
+            // Prepare the response object
+            const response = {
+                stdout: stdout.trim(),
+                stderr: stderr.trim(),
+                timeTaken,
+                success: !error || (error && !error.killed && error.code !== 'ENOMEM'),
+            };
+
+            // Handle specific errors
             if (error) {
                 if (error.killed) {
-                    return res.status(200).json({
-                        output: 'Error: Execution timed out. Please optimize your code and try again.',
-                        timeTaken,
-                        success: false,
-                    });
+                    response.stderr = 'Error: Execution timed out. Please optimize your code and try again.';
+                    response.success = false;
                 } else if (error.code === 'ENOMEM' || error.message.includes('ENOMEM')) {
-                    return res.status(200).json({
-                        output: 'Error: Execution failed due to memory limits. Please optimize your code and try again.',
-                        timeTaken,
-                        success: false,
-                    });
-                } else {
-                    // Return general error (e.g., compile/runtime error)
-                    return res.status(200).json({
-                        output: stderr || error.message,
-                        timeTaken,
-                        success: false,
-                    });
+                    response.stderr = 'Error: Execution failed due to memory limits. Please optimize your code and try again.';
+                    response.success = false;
                 }
+                // You can handle other specific errors here if needed
             }
 
-            // Return the successful output with time taken
-            res.status(200).json({
-                output: stdout,
-                timeTaken,
-                success: true,
-            });
+            // Return the response
+            res.status(200).json(response);
         });
     } catch (err) {
         console.error(err);
